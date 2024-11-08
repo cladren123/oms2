@@ -1,0 +1,39 @@
+services:
+  master:
+    image: mysql:8.0.30
+    container_name: master
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_DATABASE: oms2
+      MYSQL_USER: replica
+      MYSQL_PASSWORD: pass
+    ports:
+      - "3307:3306"
+    command: --default-authentication-plugin=mysql_native_password --server-id=1 --log-bin=mysql-bin
+    volumes:
+      - ./master_data:/var/lib/mysql
+    networks:
+      - oms2-network
+      
+  slave:
+    image: mysql:8.0.30
+    container_name: slave
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_DATABASE: oms2
+    ports:
+      - "3308:3306"
+    command: --default-authentication-plugin=mysql_native_password --server-id=2 --relay-log=mysql-relay-bin
+    volumes:
+      - ./slave_data:/var/lib/mysql
+    networks: 
+      - oms2-network
+    depends_on:
+      - master
+      
+networks:
+ oms2-network:
+   name: oms2-network   
+   driver: bridge
+      
+
