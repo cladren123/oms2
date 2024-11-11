@@ -39,11 +39,13 @@ echo "$NEW_CONTAINER is up and running on port $NEW_PORT."
 
 # Nginx 설정 업데이트
 echo "Updating Nginx configuration to enable $NEW_CONTAINER and disable $OLD_CONTAINER."
-sed -i "s/^\s*server $OLD_CONTAINER/# server $OLD_CONTAINER/" $NGINX_CONFIG_PATH
-sed -i "s/^\s*# server $NEW_CONTAINER/server $NEW_CONTAINER/" $NGINX_CONFIG_PATH
+ex -sc "g/^\s*server $OLD_CONTAINER/s//\# server $OLD_CONTAINER/" -cx $NGINX_CONFIG_PATH
+ex -sc "g/^\s*\# server $NEW_CONTAINER/s//server $NEW_CONTAINER/" -cx $NGINX_CONFIG_PATH
+
 
 # Nginx 설정 재로드
-docker restart oms2-nginx
+# docker restart oms2-nginx
+docker exec oms2-nginx nginx -s reload
 echo "Nginx configuration reloaded. Traffic is now routed to $NEW_CONTAINER."
 
 # 기존 서버 있을 경우에만 내리기
