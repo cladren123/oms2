@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### directory ### 
+mysql_setup/replica_data/
+mysql_setup/source_data/
