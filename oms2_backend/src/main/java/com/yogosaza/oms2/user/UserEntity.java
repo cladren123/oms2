@@ -20,6 +20,8 @@ public class UserEntity {
     private Integer id;
 
     private String loginId;
+
     private String password;
+
     private String name;
 }

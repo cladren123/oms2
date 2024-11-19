@@ -2,13 +2,13 @@ spring:
   datasource:
     master:
       hikari:
-        url: jdbc:mysql://master:3306/oms2?allowPublicKeyRetrieval=true&useSSL=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+        url: jdbc:mysql://source:3306/oms2?allowPublicKeyRetrieval=true&useSSL=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
         username: root
         password: pass
         driver-class-name: com.mysql.cj.jdbc.Driver
     slave:
       hikari:
-        url: jdbc:mysql://slave:3306/oms2?allowPublicKeyRetrieval=true&useSSL=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+        url: jdbc:mysql://replica:3306/oms2?allowPublicKeyRetrieval=true&useSSL=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
         username: root
         password: pass
         driver-class-name: com.mysql.cj.jdbc.Driver

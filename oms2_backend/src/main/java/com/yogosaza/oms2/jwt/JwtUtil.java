@@ -12,20 +12,15 @@ import java.util.Map;
 @Component
 public class JwtUtil {
 
-    private final String SECRET_KEY = "";
+    private final String SECRET_KEY = "1234asdklasjdlqwkreujioadjlkamasoiduasoidqwjlk";
     private final long EXPIRATION_TIME = 60;
 
-    // JWT 생성 인터페이스
-    public String generateToken(String username) {
-        Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, username);
-    }
-
     // JWT 생성
-    private String createToken(Map<String, Object> claims, String subject) {
+    public String generateToken(String loginId) {
+        Map<String, Object> claims = new HashMap<>();
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(subject)
+                .setSubject(loginId)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
@@ -38,9 +33,9 @@ public class JwtUtil {
     }
 
     // JWT 유효성 검사
-    public boolean validateToken(String token, String username) {
+    public boolean validateToken(String token, String loginId) {
         final String extractedUsername = extractUsername(token);
-        return extractedUsername.equals(username) && !isTokenExpired(token);
+        return extractedUsername.equals(loginId) && !isTokenExpired(token);
     }
 
     // JWT 날짜 검사
@@ -52,6 +47,5 @@ public class JwtUtil {
     private Claims extractAllClaims(String token) {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }
-
 
 }

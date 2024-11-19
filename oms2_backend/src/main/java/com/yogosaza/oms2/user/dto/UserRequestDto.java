@@ -1,4 +1,4 @@
-package com.yogosaza.oms2.user;
+package com.yogosaza.oms2.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
