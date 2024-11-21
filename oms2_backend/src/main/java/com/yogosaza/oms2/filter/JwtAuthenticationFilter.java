@@ -27,7 +27,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String username = jwtTokenProvider.getUsername(token);
             List<String> roles = jwtTokenProvider.getRoles(token);
 
-            // 사용자 정의 인증 객체 생성
+            // 사용자 정의 인증 객체 생성 컨텍스트 저장
+            // 이후 요청에서 인증된 사용자 정보를 제공
             JwtAuthentication authentication = new JwtAuthentication(username, roles);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
