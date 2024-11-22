@@ -1,12 +1,12 @@
 spring:
   datasource:
-    master:
+    source:
       hikari:
         url: jdbc:mysql://localhost:3307/oms2?allowPublicKeyRetrieval=true&useSSL=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
         username: root
         password: pass
         driver-class-name: com.mysql.cj.jdbc.Driver
-    slave:
+    replica:
       hikari:
         url: jdbc:mysql://localhost:3308/oms2?allowPublicKeyRetrieval=true&useSSL=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
         username: root
