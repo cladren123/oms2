@@ -24,6 +24,17 @@ DB 이중화 구성 <br>
 # 종료
 ./mysql_setup.sh down
 ```
+<br>
+
+### Redis 설정
+Redis 컨테이너 생성
+```
+docker run -d --name oms2-redis \
+  --network oms2-network \
+  -p 6379:6379 \
+  -e REDIS_PASSWORD=yourpassword \
+  redis redis-server --requirepass yourpassword
+```
 
 <br>
 
