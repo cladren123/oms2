@@ -2,10 +2,7 @@ package com.yogosaza.oms2.user;
 
 import com.yogosaza.oms2.exception.CommonException;
 import com.yogosaza.oms2.jwt.JwtTokenProvider;
-import com.yogosaza.oms2.user.dto.UserLoginRequestDto;
-import com.yogosaza.oms2.user.dto.UserLoginResponseDto;
-import com.yogosaza.oms2.user.dto.UserRequestDto;
-import com.yogosaza.oms2.user.dto.UserResponseDto;
+import com.yogosaza.oms2.user.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -37,6 +34,12 @@ public class UserController {
     public ResponseEntity<?> findUserByLoginId(@RequestParam String loginId) throws CommonException {
         UserResponseDto dto = userService.findByLoginId(loginId);
         return ResponseEntity.ok(dto);
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<?> updateUser(@RequestBody UserUpdateDto dto) throws CommonException {
+        userService.update(dto);
+        return ResponseEntity.ok("ok");
     }
 
     @PostMapping("/login")

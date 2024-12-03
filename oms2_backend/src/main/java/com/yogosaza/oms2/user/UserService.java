@@ -4,6 +4,7 @@ package com.yogosaza.oms2.user;
 import com.yogosaza.oms2.exception.CommonException;
 import com.yogosaza.oms2.user.dto.UserRequestDto;
 import com.yogosaza.oms2.user.dto.UserResponseDto;
+import com.yogosaza.oms2.user.dto.UserUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -47,6 +49,15 @@ public class UserService {
                 .loginId(user.getLoginId())
                 .name(user.getName())
                 .build();
+    }
+
+    public void update(UserUpdateDto dto) throws CommonException {
+        UserEntity user = userRepository.findById(dto.getId())
+                .orElseThrow(() -> new CommonException("USER_NOT_FOUND", "해당 id가 없습니다."));
+
+        if (dto.getName() != null) {
+            user.setName(dto.getName());
+        }
     }
 
 }
