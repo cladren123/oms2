@@ -7,12 +7,14 @@ import com.yogosaza.oms2.user.dto.UserResponseDto;
 import com.yogosaza.oms2.user.dto.UserUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 
 @Service
@@ -22,6 +24,10 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final RedisTemplate<String, UserResponseDto> redisTemplate;
+
+    private final String CACHE_PREFIX = "USER_";
+    private final long timeout = 10;
 
     public void create(UserRequestDto dto) throws CommonException {
         if (userRepository.existsByLoginId(dto.getLoginId())) {
@@ -42,13 +48,27 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserResponseDto findByLoginId(String loginId) throws CommonException{
+
+        String cacheKey = CACHE_PREFIX + loginId;
+        UserResponseDto redisDto = redisTemplate.opsForValue().get(cacheKey);
+
+        if (redisDto != null) {
+            System.out.println("Redis 데이터 조회 ");
+            return redisDto;
+        }
+
+
         UserEntity user = userRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new CommonException("USER_NOT_FOUND", "해당 loginId가 없습니다."));
 
-        return UserResponseDto.builder()
+        UserResponseDto dbDto = UserResponseDto.builder()
                 .loginId(user.getLoginId())
                 .name(user.getName())
                 .build();
+
+        redisTemplate.opsForValue().set(cacheKey, dbDto, timeout, TimeUnit.MINUTES);
+
+        return dbDto;
     }
 
     public void update(UserUpdateDto dto) throws CommonException {
@@ -58,6 +78,11 @@ public class UserService {
         if (dto.getName() != null) {
             user.setName(dto.getName());
         }
+
+        String cacheKey = CACHE_PREFIX + user.getLoginId();
+        UserResponseDto responseDto = UserResponseDto.builder().loginId(user.getLoginId()).name(user.getName()).build();
+        redisTemplate.opsForValue().set(cacheKey, responseDto, timeout, TimeUnit.MINUTES);
+
     }
 
 }
