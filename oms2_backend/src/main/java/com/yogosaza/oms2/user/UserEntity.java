@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "oms2_user")
+@Table(name = "oms2_users")
 public class UserEntity {
 
     @Id

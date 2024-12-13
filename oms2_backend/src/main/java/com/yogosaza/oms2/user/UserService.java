@@ -6,14 +6,12 @@ import com.yogosaza.oms2.user.dto.UserRequestDto;
 import com.yogosaza.oms2.user.dto.UserResponseDto;
 import com.yogosaza.oms2.user.dto.UserUpdateDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 
