@@ -1,6 +1,7 @@
 package com.yogosaza.oms2.product;
 
 import com.yogosaza.oms2.exception.CommonException;
+import com.yogosaza.oms2.logging.LogInputOutput;
 import com.yogosaza.oms2.product.dto.ProductRequestDto;
 import com.yogosaza.oms2.product.dto.ProductResponseDto;
 import com.yogosaza.oms2.product.dto.ProductUpdateDto;
@@ -15,6 +16,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
+    @LogInputOutput
     public void create(ProductRequestDto dto) throws CommonException {
         ProductEntity product = ProductEntity.builder()
                 .name(dto.getName())
@@ -25,6 +27,7 @@ public class ProductService {
         productRepository.save(product);
     }
 
+    @LogInputOutput
     @Transactional(readOnly = true)
     public ProductResponseDto findByProductId(Integer id) throws CommonException {
         ProductEntity product = productRepository.findById(id)
@@ -38,6 +41,7 @@ public class ProductService {
                 .build();
     }
 
+    @LogInputOutput
     public void update(ProductUpdateDto dto) throws CommonException {
         ProductEntity product = productRepository.findById(dto.getId())
                 .orElseThrow(() -> new CommonException("PRODUCT_NOT_FOUND", "해당 id의 상품이 없습니다."));

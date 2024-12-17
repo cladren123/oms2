@@ -2,6 +2,7 @@ package com.yogosaza.oms2.user;
 
 
 import com.yogosaza.oms2.exception.CommonException;
+import com.yogosaza.oms2.logging.LogInputOutput;
 import com.yogosaza.oms2.user.dto.UserRequestDto;
 import com.yogosaza.oms2.user.dto.UserResponseDto;
 import com.yogosaza.oms2.user.dto.UserUpdateDto;
@@ -27,6 +28,7 @@ public class UserService {
     private final String CACHE_PREFIX = "USER_";
     private final long timeout = 10;
 
+    @LogInputOutput
     public void create(UserRequestDto dto) throws CommonException {
         if (userRepository.existsByLoginId(dto.getLoginId())) {
             throw new CommonException("USER_DUPLICATE", "loginId가 이미 사용 중 입니다.");
@@ -44,6 +46,7 @@ public class UserService {
         UserEntity save = userRepository.save(user);
     }
 
+    @LogInputOutput
     @Transactional(readOnly = true)
     public UserResponseDto findByLoginId(String loginId) throws CommonException{
 
@@ -69,6 +72,7 @@ public class UserService {
         return dbDto;
     }
 
+    @LogInputOutput
     public void update(UserUpdateDto dto) throws CommonException {
         UserEntity user = userRepository.findById(dto.getId())
                 .orElseThrow(() -> new CommonException("USER_NOT_FOUND", "해당 id가 없습니다."));
