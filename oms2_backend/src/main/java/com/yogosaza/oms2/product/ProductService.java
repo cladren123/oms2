@@ -39,9 +39,12 @@ public class ProductService {
     }
 
     public void update(ProductUpdateDto dto) throws CommonException {
+        ProductEntity product = productRepository.findById(dto.getId())
+                .orElseThrow(() -> new CommonException("PRODUCT_NOT_FOUND", "해당 id의 상품이 없습니다."));
 
-
-
+        product.setName(dto.getName());
+        product.setDescription(dto.getDescription());
+        product.setQuantity(dto.getQuantity());
     }
 
 

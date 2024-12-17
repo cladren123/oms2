@@ -23,5 +23,4 @@ public class ProductEntity {
 
     private Integer quantity;
 
-
 }

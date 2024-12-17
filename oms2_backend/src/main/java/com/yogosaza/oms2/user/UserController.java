@@ -12,7 +12,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 
 @RestController
@@ -36,7 +35,7 @@ public class UserController {
         return ResponseEntity.ok(dto);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<?> updateUser(@RequestBody UserUpdateDto dto) throws CommonException {
         userService.update(dto);
         return ResponseEntity.ok("ok");
