@@ -17,11 +17,12 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     @LogInputOutput
-    public void create(ProductRequestDto dto) throws CommonException {
+    public void create(ProductRequestDto dto) {
         ProductEntity product = ProductEntity.builder()
                 .name(dto.getName())
                 .description(dto.getDescription())
                 .quantity(dto.getQuantity())
+                .price(dto.getPrice())
                 .build();
 
         productRepository.save(product);
@@ -29,7 +30,7 @@ public class ProductService {
 
     @LogInputOutput
     @Transactional(readOnly = true)
-    public ProductResponseDto findByProductId(Integer id) throws CommonException {
+    public ProductResponseDto findByProductId(Integer id) {
         ProductEntity product = productRepository.findById(id)
                 .orElseThrow(() -> new CommonException("PRODUCT_NOT_FOUND", "해당 id의 상품이 없습니다."));
 
@@ -38,20 +39,21 @@ public class ProductService {
                 .name(product.getName())
                 .description(product.getDescription())
                 .quantity(product.getQuantity())
+                .price(product.getPrice())
                 .build();
     }
 
     @LogInputOutput
-    public void update(ProductUpdateDto dto) throws CommonException {
+    public void update(ProductUpdateDto dto) {
         ProductEntity product = productRepository.findById(dto.getId())
                 .orElseThrow(() -> new CommonException("PRODUCT_NOT_FOUND", "해당 id의 상품이 없습니다."));
 
         product.setName(dto.getName());
         product.setDescription(dto.getDescription());
         product.setQuantity(dto.getQuantity());
+        product.setPrice(dto.getPrice());
+
+        productRepository.save(product);
     }
-
-
-
 
 }

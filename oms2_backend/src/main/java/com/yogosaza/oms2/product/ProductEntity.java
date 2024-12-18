@@ -23,4 +23,6 @@ public class ProductEntity {
 
     private Integer quantity;
 
+    private Integer price;
+
 }

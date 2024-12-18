@@ -7,6 +7,7 @@ import com.yogosaza.oms2.util.Util;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
@@ -18,8 +19,7 @@ public class GlobalExceptionHandler {
         return ErrorResponseDto.builder()
                 .code(e.getCode())
                 .message(e.getMessage())
-                .timestamp(Util.seoulTime())
+                .timestamp(Util.seoulTime(LocalDateTime.now()))
                 .build();
     }
-
 }

@@ -1,4 +1,4 @@
-package com.yogosaza.oms2.product.dto;
+package com.yogosaza.oms2.order.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductUpdateDto {
+public class OrderRequestDto {
 
-    private Integer id;
-    private String name;
-    private String description;
+    private Integer userId;
+    private Integer productId;
     private Integer quantity;
     private Integer price;
 

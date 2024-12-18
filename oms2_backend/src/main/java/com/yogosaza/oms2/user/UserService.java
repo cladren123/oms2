@@ -29,7 +29,7 @@ public class UserService {
     private final long timeout = 10;
 
     @LogInputOutput
-    public void create(UserRequestDto dto) throws CommonException {
+    public void create(UserRequestDto dto) {
         if (userRepository.existsByLoginId(dto.getLoginId())) {
             throw new CommonException("USER_DUPLICATE", "loginId가 이미 사용 중 입니다.");
         }
@@ -48,7 +48,7 @@ public class UserService {
 
     @LogInputOutput
     @Transactional(readOnly = true)
-    public UserResponseDto findByLoginId(String loginId) throws CommonException{
+    public UserResponseDto findByLoginId(String loginId) {
 
         String cacheKey = CACHE_PREFIX + loginId;
         UserResponseDto redisDto = redisTemplate.opsForValue().get(cacheKey);
@@ -73,7 +73,7 @@ public class UserService {
     }
 
     @LogInputOutput
-    public void update(UserUpdateDto dto) throws CommonException {
+    public void update(UserUpdateDto dto) {
         UserEntity user = userRepository.findById(dto.getId())
                 .orElseThrow(() -> new CommonException("USER_NOT_FOUND", "해당 id가 없습니다."));
 
@@ -84,7 +84,6 @@ public class UserService {
         String cacheKey = CACHE_PREFIX + user.getLoginId();
         UserResponseDto responseDto = UserResponseDto.builder().loginId(user.getLoginId()).name(user.getName()).build();
         redisTemplate.opsForValue().set(cacheKey, responseDto, timeout, TimeUnit.MINUTES);
-
     }
 
 }
