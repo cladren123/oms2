@@ -22,20 +22,27 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "user_id")
     private Integer userId;
 
+    @Column(name = "product_id")
     private Integer productId;
 
+    @Column(name = "quantity")
     private Integer quantity;
 
+    @Column(name = "price")
     private Integer price;
 
     // 결제 완료, 배송중, 배송완료, 반품, 교환
+    @Column(name = "status")
     private String status;
 
+    @Column(name = "created_date_time", updatable = false)
     private LocalDateTime createdDateTime;
 
     // 삭제 여부
+    @Column(name = "is_deleted")
     private boolean isDeleted = false;
 
     // 삭제
@@ -53,6 +60,5 @@ public class OrderEntity {
         }
         isDeleted = false;
     }
-
 
 }
